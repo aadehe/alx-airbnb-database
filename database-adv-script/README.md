@@ -13,13 +13,14 @@ Write SQL queries that involve multiple table joins to retrieve specific informa
 - Retrieve specific information based on given criteria.
 
 ### Queries
-1. INNER JOIN
+**1. INNER JOIN**
 - Retrieve all bookings and their respective users who made the bookings.
-2. LEFT JOIN
+
+**2. LEFT JOIN**
 - Retrieve all properties and their reviews.
 - Include properties even if they have no reviews.
 
-2. FULL OUTER JOIN
+**2. FULL OUTER JOIN**
 - Retrieve all users and all bookings, 
 - Even if the user has no booking or a booking is not linked to a user.
 
