@@ -1,3 +1,14 @@
+-- Run the query before adding indexes
+-- Find all confirmed bookings by a user in a date range
+EXPLAIN ANALYZE
+SELECT *
+FROM bookings
+WHERE user_id = 'some-user-uuid'
+  AND status = 'confirmed'
+  AND start_date >= '2025-09-01'
+  AND end_date <= '2025-09-30';
+
+
 -- ======================
 -- Indexes for USERS
 -- ======================
@@ -47,3 +58,14 @@ CREATE INDEX idx_bookings_date_range ON bookings(start_date, end_date);
 
 -- Index for created_at (sorting by booking creation time)
 CREATE INDEX idx_bookings_created_at ON bookings(created_at);
+
+-- Run the query after adding indexes
+-- Find all confirmed bookings by a user in a date range
+EXPLAIN ANALYZE
+SELECT *
+FROM bookings
+WHERE user_id = 'some-user-uuid'
+  AND status = 'confirmed'
+  AND start_date >= '2025-09-01'
+  AND end_date <= '2025-09-30';
+
