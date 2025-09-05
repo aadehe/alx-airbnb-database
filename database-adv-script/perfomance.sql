@@ -88,3 +88,37 @@ INNER JOIN properties p
 LEFT JOIN payments pay
     ON b.booking_id = pay.booking_id
 ORDER BY b.created_at DESC;
+
+-- Optimized query: retrieves bookings with only necessary joins and indexed columns
+SELECT
+    b.booking_id,
+    b.start_date,
+    b.end_date,
+    b.status,
+    b.created_at AS booking_created_at,
+
+    -- Minimal user details (remove heavy text columns unless needed)
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email,
+
+    -- Key property details (exclude description/text for performance)
+    p.property_id,
+    p.name AS property_name,
+    p.location,
+
+    -- Payment summary (may be NULL if no payment exists)
+    pay.amount,
+    pay.payment_method
+FROM bookings b
+-- Keep only essential joins
+JOIN users u
+    ON b.user_id = u.user_id
+JOIN properties p
+    ON b.property_id = p.property_id
+LEFT JOIN payments pay
+    ON b.booking_id = pay.booking_id
+-- Use indexed column for sorting
+ORDER BY b.created_at DESC;
+
