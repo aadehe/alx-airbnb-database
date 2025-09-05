@@ -1,3 +1,4 @@
+-- Retrieve bookings with user, property, and payment details
 SELECT
     b.booking_id,
     b.start_date,
