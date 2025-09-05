@@ -23,20 +23,7 @@ Identify columns that are frequently used in `WHERE` clauses, `JOIN` conditions,
 |               | `start_date`, `end_date`                                                                | `WHERE` (availability checks, date range)                              | Candidate for new index |
 |               | `created_at`                                                                            | `ORDER BY` (recent bookings first)                                     | Candidate for new index |
 
-## Recommended Indexes
-Based on the analysis of high-usage columns, the following indexes are recommended to optimize query performance
-| **Table**     | **Column(s)**                  | **Index Type**       | **Justification**                                                                 |
-|---------------|--------------------------------|----------------------|----------------------------------------------------------------------------------|
-| **Users**     | `role`                         | B-tree               | Frequent filtering by user role.                                           |
-|               | `created_at`                   | B-tree               | Sorting users by signup date.                                               |
-| **Properties**| `host_id`                      | B-tree               | | Frequent joins with users table.                                         |
-|               | `location`                     | B-tree               | Commonly used in search filters.                                           |
-|               | `price_per_night`                | B-tree               | Price range filtering.                                                     |
-|               | `created_at`                   | B-tree               | Sorting properties by creation date.                                       |
-| **Bookings**  | | `user_id`                      | B-tree               | Frequent joins with users table.                                           |
-|               | `status`                       | B-tree               | Filtering bookings by status.                                             |
-|               | `start_date`, `end_date`       | Composite B-tree       | Date range queries for availability checks.                                      |
-|               | `created_at`                   | B-tree               | Sorting bookings by creation date.                                         |
+
 ## Implementation
 To create the recommended indexes, use the following SQL commands:
 ```sql
@@ -55,3 +42,9 @@ CREATE INDEX idx_bookings_booking_id ON bookings(booking_id);
 -- Index on booking_id in payments table
 CREATE INDEX idx_payments_booking_id ON payments(booking_id);
 ```
+
+### Performance Measurement
+1. Run queries **before adding indexes** using `EXPLAIN` or `ANALYZE`.
+2. Create indexes with `CREATE INDEX`.
+3. Run the same queries **after adding indexes** and compare cost and execution time.
+4. Document improvements.
